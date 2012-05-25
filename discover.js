@@ -1,10 +1,16 @@
-var jsdom = require('jsdom');
+var jsdom = require('jsdom'),
+    Q        = require('q');
 
 exports.discover = function (url, callback) {
-  var type;
+  var deferred = Q.deferred(),
+      promise  = deferred.promise(),
+      type;
+
   type = (isCode(url))  ? 'code'  : 'generic';
   type = (isImage(url)) ? 'image' : type;
-  callback(type);
+  
+  deferred.resolve(type);  
+  return promise;
 };
 
 // Discovery methods
