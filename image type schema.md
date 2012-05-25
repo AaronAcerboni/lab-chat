@@ -7,8 +7,8 @@
       title: 'jQuery docs',
       description: 'jquery is cool or something',
       who: 'Aaron',
-      url: 'http://jquery.com',
-      when: '2:05pm'
+      when: JavaScript Date string
+      url: 'http://jquery.com'
     }
 
 ## Code link
@@ -18,15 +18,15 @@
       title: 'Funky function',
       code: 'function(){\n  doIt();\n}',
       who: 'Adam',
-      url: 'http://gist.github.com/248r28',
-      when: '2:05pm'
+      when: JavaScript Date string,
+      url: 'http://gist.github.com/248r28'
     }
 
 ## Image link
 
     {
       type: 'image',
-      who: 'Prem',
-      url: 'example.com/image.png',
-      when: '2:05pm'
+      who: 'Prem',      
+      when: JavaScript Date string,
+      url: 'example.com/image.png'
     }

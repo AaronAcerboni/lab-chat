@@ -17,12 +17,3 @@
     },
   "devDependencies": {}
 }
-
-
-
-
-    sockets.on('message', function (message) {
-      if(message.type == 'code'){
-        $('#tim').html(tim(message));
-      }
-    })

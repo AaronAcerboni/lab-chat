@@ -37,13 +37,11 @@ function generateView(message) {
 	
 }
 
-/*
 function pushNotification() {
 	
 	
 	
 }
-*/
 
 
 
