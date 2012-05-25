@@ -12,7 +12,17 @@
   },
   "dependencies": {
     "jsdom" : "0.2.14",
-    "socket.io" : "0.9.6"
+    "socket.io" : "0.9.6",
+    "q": "0.8.5"
     },
   "devDependencies": {}
 }
+
+
+
+
+    sockets.on('message', function (message) {
+      if(message.type == 'code'){
+        $('#tim').html(tim(message));
+      }
+    })
