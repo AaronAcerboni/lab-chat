@@ -3,16 +3,16 @@ var discover = require('./discover'),
     Q        = require('q'),
     expand   = {};
 
-exports.expand = function (url, content) {
+exports.expand = function (url) {
     return discover.discover(url)
     .pipe(function (type) {
-      return expand[type](who, content);
+      return expand[type](url, who);
     });
 };
 
 // Expand code
 
-expand.code = function (url, who, content) {
+expand.code = function (url, who) {
   var deferred = Q.deferred(),
       promise  = deferred.promise();
 
@@ -35,7 +35,7 @@ expand.code = function (url, who, content) {
 
 // Expand image
 
-expand.image = function (url, who, content) {
+expand.image = function (url, who) {
   var deferred = Q.deferred(),
       promise  = deferred.promise();
 
