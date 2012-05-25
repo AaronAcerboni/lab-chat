@@ -7,6 +7,7 @@
       title: 'jQuery docs'
       description: 'jquery is cool or something'
       who: 'Aaron',
+      when: JavaScript Date string
       url: 'http://jquery.com'
     }
 
@@ -17,6 +18,7 @@
       title: 'Funky function'
       code: 'function(){\n  doIt();\n}'
       who: 'Adam',
+      when: JavaScript Date string,
       url: 'http://gist.github.com/248r28'
     }
 
@@ -24,6 +26,7 @@
 
     {
       type: 'image',
-      who: 'Prem',
+      who: 'Prem',      
+      when: JavaScript Date string,
       url: 'example.com/image.png'
     }
