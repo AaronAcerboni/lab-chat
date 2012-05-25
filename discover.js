@@ -1,5 +1,5 @@
 var jsdom = require('jsdom'),
-    Q        = require('q');
+    Q     = require('q');
 
 exports.discover = function (url, callback) {
   var deferred = Q.deferred(),
