@@ -1,0 +1,18 @@
+{
+  "author": "",
+  "name": "lab-chat",
+  "description": "Chat for l4rp",
+  "version": "0.0.0",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/AaronAcerboni/lab-chat.git"
+  },
+  "engines": {
+    "node": "~0.4.12"
+  },
+  "dependencies": {
+    "jsdom" : "0.2.14",
+    "socket.io" : "0.9.6"
+    },
+  "devDependencies": {}
+}
