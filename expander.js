@@ -8,7 +8,9 @@ exports.expand = function (url, content) {
     .pipe(function (type) {
       return expand[type](who, content);
     });
-}
+};
+
+// Expand code
 
 expand.code = function (url, who, content) {
   var deferred = Q.deferred(),
@@ -31,6 +33,8 @@ expand.code = function (url, who, content) {
   return promise;
 };
 
+// Expand image
+
 expand.image = function (url, who, content) {
   var deferred = Q.deferred(),
       promise  = deferred.promise();
@@ -50,6 +54,8 @@ expand.image = function (url, who, content) {
 
   return promise;
 };
+
+// Expand generic
 
 expand.generic = function (url, who, content) {
   var deferred = Q.deferred(),
