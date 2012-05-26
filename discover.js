@@ -1,9 +1,10 @@
-var jsdom = require('jsdom'),
-    Q     = require('q');
+var jsdom   = require('jsdom'),
+    Promise = require('promise').Promise,
+    defer   = require('promise').defer;
 
 exports.discover = function (url, callback) {
-  var deferred = Q.deferred(),
-      promise  = deferred.promise(),
+  var deferred = defer(),
+      promise  = new Promise(),
       type;
 
   type = (isCode(url))  ? 'code'  : 'generic';

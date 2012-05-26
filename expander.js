@@ -1,9 +1,18 @@
+// Module responsible for expanding link type into a data 
+// object.
+//
+// Data objects are sent to the client to be expanded into a view.
+//
+// See link type schema.md
+
+
 var discover = require('./discover'),
     jsdom    = require('jsdom'),
-    Q        = require('q'),
+    Promise = require('promise').Promise,
+    defer   = require('promise').defer;
     expand   = {};
 
-exports.expand = function (url) {
+exports.expand = function (url, who) {
     return discover.discover(url)
     .pipe(function (type) {
       return expand[type](url, who);
@@ -13,8 +22,8 @@ exports.expand = function (url) {
 // Expand code
 
 expand.code = function (url, who) {
-  var deferred = Q.deferred(),
-      promise  = deferred.promise();
+  var deferred = defer(),
+      promise  = new Promise();
 
   jsdom.env({
     html: url,
@@ -36,8 +45,8 @@ expand.code = function (url, who) {
 // Expand image
 
 expand.image = function (url, who) {
-  var deferred = Q.deferred(),
-      promise  = deferred.promise();
+  var deferred = defer(),
+      promise  = new Promise();
 
   jsdom.env({
     html: url,
@@ -58,8 +67,8 @@ expand.image = function (url, who) {
 // Expand generic
 
 expand.generic = function (url, who, content) {
-  var deferred = Q.deferred(),
-      promise  = deferred.promise();
+  var deferred = defer(),
+      promise  = new Promise();
 
   jsdom.env({
     html: url,
@@ -67,13 +76,14 @@ expand.generic = function (url, who, content) {
     done: function (errors, window) {
       var $ = window.$;
       deferred.resolve({
-        type: 'generic'
+        type: 'generic',
         title: $('head title').text() || 'Link',
         description: $('meta').attr('content'),
         when: new Date(),
         who: who,
         url: url
       });
+    }
   });
 
   return promise;
