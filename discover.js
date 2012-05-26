@@ -1,16 +1,14 @@
 var jsdom   = require('jsdom'),
-    Promise = require('promise').Promise,
-    defer   = require('promise').defer;
+    Promise = require('node-promise').Promise;
 
 exports.discover = function (url, callback) {
-  var deferred = defer(),
-      promise  = new Promise(),
+  var promise  = new Promise(),
       type;
 
   type = (isCode(url))  ? 'code'  : 'generic';
   type = (isImage(url)) ? 'image' : type;
-  
-  deferred.resolve(type);  
+
+  promise.resolve(type);  
   return promise;
 };
 
