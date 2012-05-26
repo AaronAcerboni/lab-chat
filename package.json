@@ -13,7 +13,7 @@
   "dependencies": {
     "jsdom" : "0.2.14",
     "socket.io" : "0.9.6",
-    "q": "0.8.5",
+    "node-promise": "0.5.2",
     "irc": "0.3.4"
     },
   "devDependencies": {}
