@@ -8,13 +8,13 @@
 
 var discover = require('./discover'),
     jsdom    = require('jsdom'),
-    Promise = require('promise').Promise,
-    defer   = require('promise').defer;
+    Promise  = require('node-promise').Promise,
     expand   = {};
 
 exports.expand = function (url, who) {
     return discover.discover(url)
-    .pipe(function (type) {
+    .then(function (type) {
+      console.log("hi");
       return expand[type](url, who);
     });
 };
@@ -22,14 +22,14 @@ exports.expand = function (url, who) {
 // Expand code
 
 expand.code = function (url, who) {
-  var deferred = defer(),
-      promise  = new Promise();
+  var promise  = new Promise();
 
   jsdom.env({
     html: url,
     scripts: ['http://code.jquery.com/jquery-1.5.min.js'],
     done: function (errors, window) {
-      deferred.resolve({
+      var jQuery = window.jQuery;
+      promise.resolve({
         type: 'code',
         title: jQuery('.paste_box_line1 h1').text(),
         code: jQuery('#paste_code').text(),
@@ -45,14 +45,14 @@ expand.code = function (url, who) {
 // Expand image
 
 expand.image = function (url, who) {
-  var deferred = defer(),
-      promise  = new Promise();
+  var promise  = new Promise();
 
   jsdom.env({
     html: url,
     scripts: ['http://code.jquery.com/jquery-1.5.min.js'],
     done: function (errors, window) {
-      deferred.resolve({
+      var jQuery = window.jQuery;
+      promise.resolve({
         type: 'image',
         when: new Date(),
         who: who,
@@ -67,18 +67,17 @@ expand.image = function (url, who) {
 // Expand generic
 
 expand.generic = function (url, who, content) {
-  var deferred = defer(),
-      promise  = new Promise();
+  var promise  = new Promise();
 
   jsdom.env({
     html: url,
     scripts: ['http://code.jquery.com/jquery-1.5.min.js'],
     done: function (errors, window) {
-      var $ = window.$;
-      deferred.resolve({
+      var jQuery = window.jQuery;
+      promise.resolve({
         type: 'generic',
-        title: $('head title').text() || 'Link',
-        description: $('meta').attr('content'),
+        title: jQuery('head title').text() || 'Link',
+        description: jQuery('meta').attr('content'),
         when: new Date(),
         who: who,
         url: url
