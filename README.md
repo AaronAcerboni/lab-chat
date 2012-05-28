@@ -33,3 +33,9 @@ Figures out what type of link it is.
 
 Actually creates the shared link. Uses JDOM for scraping out code for `Code`
 type links.
+
+# Contributors
+
+[Aaron Acerboni](http://halfmelt.com) & [Adam Yeats](http://www.helloadam.me/)
+
+Also other hackers at the [L4RP Hackday](http://lanyrd.com/2012/l4rp-nld3/) ♥
