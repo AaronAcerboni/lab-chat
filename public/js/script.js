@@ -3,21 +3,23 @@
 var codecount, genericcount, imgcount;
 
 $(document).ready(function() {
-
-	socket.on('message'), function(message) {
+	
+	var socket = io.connect('http://localhost');
+	
+	socket.on('link'), function(data) {
 		
-		document.getElementById('timwrite').innerHTML = generateView(message);
+		document.getElementById('timwrite').innerHTML = generateView(data);
 		statUpdate();
 		
 	}
 
 });
 
-function generateView(message) {
+function generateView(data) {
 
 	var timTemp;
 	
-	if (message.type == 'code') {
+	if (data.type == 'code') {
 	
 		timTemp = '<article class="codebox row"><h2 class="codetitle">{{title}}</h2><span class="whowhen">Posted by {{who}} at {{when}}.</span><a class="codelink" href="{{url}}">See the code online</a><pre class="code">{{code}}</pre></article>';
 		
@@ -25,7 +27,7 @@ function generateView(message) {
 	
 	}
 	
-	if (message.type == 'generic') {
+	if (data.type == 'generic') {
 		
 		timTemp = '<article class="generalbox row"><h2 class="generaltitle">{{title}}</h2><a class="generallink" href="{{url}}">{{url}}</a><h3><span class="whowhen">Posted by {{who}} at {{when}}.</span><p class="description">{{description}}</p></article>';
 		
@@ -33,7 +35,7 @@ function generateView(message) {
 		
 	}
 	
-	if (message.type == 'image') {
+	if (data.type == 'image') {
 		
 		timTemp = '<article class="imgbox row"><figure><img src="{{url}}" alt="{{name}}\'s Shared Image" /><figcaption><a class="imglink" href="{{url}}">{{url}}</a></figcaption></figure><span class="whowhen">Posted by {{who}} at {{when}}.</span><p class="description">{{description}}</p></article>';
 		
@@ -41,7 +43,7 @@ function generateView(message) {
 		
 	}
 	
-	return tim(timTemp, message);
+	return tim(timTemp, data);
 	
 }
 
