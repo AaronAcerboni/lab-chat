@@ -25,9 +25,10 @@ exports.listen = function (eventName, callback) {
   emitter.on(eventName, callback);
 };
 
-// Expand a code link
 
-expand.code = function (url, who) {
+// Expand a pastebin code link
+
+expand['pastebin.com/'] = function (url, who) {
   var promise = new Promise();
 
   jsdom.env({
@@ -47,6 +48,28 @@ expand.code = function (url, who) {
   return promise;
 };
 
+
+// Expand a github code link
+
+expand['gist.github.com/'] = function (url, who) {
+  var promise = new Promise();
+
+  jsdom.env({
+    html: validate(url),
+    scripts: ['http://code.jquery.com/jquery-1.7.2.min.js'],
+    done: function (errors, window) {
+      promise.resolve({
+        type: 'code',
+        title: window.jQuery('#description').text(),
+        code: window.jQuery('div.actions a')[1].href,
+        who: who,
+        when: new Date(),
+        url: validate(url)
+      });
+    }
+  });
+  return promise;
+};
 
 
 // Expand an image link
@@ -71,7 +94,6 @@ expand.image = function (url, who) {
 };
 
 
-
 // Expand a generic link
 
 expand.generic = function (url, who, content) {
@@ -94,7 +116,6 @@ expand.generic = function (url, who, content) {
 
   return promise;
 };
-
 
 
 // Add 'http://' to a URL which has it missing
