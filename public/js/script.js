@@ -1,14 +1,15 @@
 /* jQuery points, Tim writes, socket.io listens */
 
-var codecount, genericcount, imgcount;
+var codeCount = genericCount = imgCount = 0;
 
 $(document).ready(function() {
 	
-	var socket = io.connect('http://localhost');
+	var area = document.getElementById('timwrite'),
+			socket = io.connect('http://localhost');
 	
 	socket.on('link', function (data) {
 		console.log("Got data: ", data);
-		document.getElementById('timwrite').innerHTML = generateView(data);
+		area.innerHTML = generateView(data) + area.innerHTML;
 		statUpdate();		
 	});
 
@@ -22,7 +23,7 @@ function generateView(data) {
 	
 		timTemp = '<article class="codebox row"><h2 class="codetitle">{{title}}</h2><span class="whowhen">Posted by {{who}} at {{when}}.</span><a class="codelink" href="{{url}}">See the code online</a><pre class="code">{{code}}</pre></article>';
 		
-		codecount++;
+		codeCount++;
 	
 	}
 	
@@ -30,15 +31,15 @@ function generateView(data) {
 		
 		timTemp = '<article class="generalbox row"><h2 class="generaltitle">{{title}}</h2><a class="generallink" href="{{url}}">{{url}}</a><h3><span class="whowhen">Posted by {{who}} at {{when}}.</span><p class="description">{{description}}</p></article>';
 		
-		genericcount++;
+		genericCount++;
 		
 	}
 	
 	if (data.type == 'image') {
 		
-		timTemp = '<article class="imgbox row"><figure><img src="{{url}}" alt="{{name}}\'s Shared Image" /><figcaption><a class="imglink" href="{{url}}">{{url}}</a></figcaption></figure><span class="whowhen">Posted by {{who}} at {{when}}.</span><p class="description">{{description}}</p></article>';
+		timTemp = '<article class="imgbox row"><figure><img src="{{url}}" alt="{{who}}\'s Shared Image" /><figcaption><a class="imglink" href="{{url}}">{{url}}</a></figcaption></figure><span class="whowhen">Posted by {{who}} at {{when}}.</span></article>';
 		
-		imgcount++;
+		imgCount++;
 		
 	}
 	
@@ -67,15 +68,15 @@ function statUpdate() {
 	var newItemList = document.createElement("ul");
 		
 	var newCodeOnList = document.createElement("li");
-	var codeItem = document.createTextNode(codecount + " pieces of code shared.")
+	var codeItem = document.createTextNode(codeCount + " pieces of code shared.")
 	newCodeOnList.appendChild(codeItem);
 	
 	var newImgOnList = document.createElement("li");
-	var imgItem = document.createTextNode(imgcount + " pictures shared.")
+	var imgItem = document.createTextNode(imgCount + " pictures shared.")
 	newImgOnList.appendChild(imgItem);
 	
 	var newGenericOnList = document.createElement("li");
-	var genericItem = document.createTextNode(genericcount + " general items shared.")
+	var genericItem = document.createTextNode(genericCount + " general items shared.")
 	newGenericOnList.appendChild(genericItem);
 	
 	$(newItemList).append(newCodeOnList, newImgOnList, newGenericOnList);
