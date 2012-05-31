@@ -3,60 +3,66 @@
 //
 // Data objects are sent to the client to be expanded into a view.
 //
-// See link type schema.md
-
+// See link type schema.md for insight on these data objects.
 
 var discover = require('./discover'),
     jsdom    = require('jsdom'),
     Promise  = require('node-promise').Promise,
+    events   = require('events'),
+    emitter  = new events.EventEmitter();
     expand   = {};
 
+
 exports.expand = function (url, who) {
-    return discover.discover(url)
-    .then(function (type) {
-      console.log("hi");
-      return expand[type](url, who);
+  discover.discover(url).then(function (type) {
+    expand[type](url, who).then(function (data) {
+      emitter.emit('expansion', data);
     });
+  });
 };
 
-// Expand code
+exports.listen = function (eventName, callback) {
+  emitter.on(eventName, callback);
+};
+
+// Expand a code link
 
 expand.code = function (url, who) {
-  var promise  = new Promise();
+  var promise = new Promise();
 
   jsdom.env({
-    html: url,
-    scripts: ['http://code.jquery.com/jquery-1.5.min.js'],
+    html: validate(url),
+    scripts: ['http://code.jquery.com/jquery-1.7.2.min.js'],
     done: function (errors, window) {
-      var jQuery = window.jQuery;
       promise.resolve({
         type: 'code',
-        title: jQuery('.paste_box_line1 h1').text(),
-        code: jQuery('#paste_code').text(),
+        title: window.jQuery('.paste_box_line1 h1').text(),
+        code: window.jQuery('#paste_code').text(),
         who: who,
         when: new Date(),
-        url: url
+        url: validate(url)
       });
     }
   });
   return promise;
 };
 
-// Expand image
+
+
+// Expand an image link
 
 expand.image = function (url, who) {
   var promise  = new Promise();
 
   jsdom.env({
-    html: url,
-    scripts: ['http://code.jquery.com/jquery-1.5.min.js'],
+    html: validate(url),
+    scripts: ['http://code.jquery.com/jquery-1.7.2.min.js'],
     done: function (errors, window) {
-      var jQuery = window.jQuery;
       promise.resolve({
         type: 'image',
         when: new Date(),
         who: who,
-        url: url
+        url: validate(url)
       });
     }
   });
@@ -64,26 +70,35 @@ expand.image = function (url, who) {
   return promise;
 };
 
-// Expand generic
+
+
+// Expand a generic link
 
 expand.generic = function (url, who, content) {
   var promise  = new Promise();
 
   jsdom.env({
-    html: url,
-    scripts: ['http://code.jquery.com/jquery-1.5.min.js'],
+    html: validate(url),
+    scripts: ['http://code.jquery.com/jquery-1.7.2.min.js'],
     done: function (errors, window) {
-      var jQuery = window.jQuery;
       promise.resolve({
         type: 'generic',
-        title: jQuery('head title').text() || 'Link',
-        description: jQuery('meta').attr('content'),
+        title: window.jQuery('head title').text() || 'Link',
+        description: window.jQuery('meta').attr('content'),
         when: new Date(),
         who: who,
-        url: url
+        url: validate(url)
       });
     }
   });
 
   return promise;
 };
+
+
+
+// Add 'http://' to a URL which has it missing
+
+function validate(url) {
+  return (url.search('^https?://') != -1) ? url : 'http://' + url;
+}
