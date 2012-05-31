@@ -10,13 +10,16 @@ The intention of the software is to display these links somewhere on the
 The possible hyperlinks are:
 
 - `generic` for any old website.
-- `code` for code shared as a gist or on pastebin.
+- `code` for code shared as a gist or on pastebin (gists or pastebin).
 - `image` for a hyperlink linking directly to an image.
 
 # How it works
 
+Links are collected in server memory and a client page requests all of them when
+its script first starts.
+
 Links which are collected are pushed as an 
-[interesting json object](https://github.com/AaronAcerboni/lab-chat/blob/master/link%20type%20schema.md) to a listening client websocket. 
+[interesting json object](https://github.com/AaronAcerboni/lab-chat/blob/master/link%20type%20schema.md) to a listening client WebSocket. 
 This client then draws them on the page.
 
 # Modules
