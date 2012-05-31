@@ -5,8 +5,8 @@ exports.discover = function (url, callback) {
   var promise  = new Promise(),
       type;
 
-  type = (isCode(url))  ? 'code'  : 'generic';
-  type = (isImage(url)) ? 'image' : type;
+  type = (isCode(url))  ? isCode(url)  : 'generic';
+  type = (isImage(url)) ? 'image'      : type;
 
   promise.resolve(type);  
   return promise;
@@ -22,7 +22,7 @@ function isCode(url){
   for(i; i < recognize.length; i++){
     schemeless = recognize[i].split('//:');
     if(url.search(schemeless[schemeless.length-1]) >= 0){
-      return true;
+      return schemeless;
     }
   }
   return false; 
