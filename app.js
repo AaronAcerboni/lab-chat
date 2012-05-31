@@ -60,8 +60,8 @@ app.listen(8888);
 function handler (req, res) {
   var path = req.url.replace('public/' + '');
   path = (path === '/') ? 'index.html' : path;
-
-  if(path != 'cache'){
+  
+  if(req.url != '/cache'){
     fs.readFile(__dirname + '/public/' + path, function (err, data) {
       if (err) {
         res.writeHead(500);
