@@ -32,7 +32,7 @@ function generateView(data) {
 	
 	if (data.type == 'code') {
 	
-		timTemp = '<article class="codebox row"><h2 class="codetitle">{{title}}</h2><span class="whowhen">Posted by {{who}} at {{when}}.</span><a class="codelink" href="{{url}}">See the code online</a><pre class="code">{{code}}</pre></article>';
+		timTemp = '<article class="codebox row"><h2 class="codetitle">{{title}}</h2><a class="codelink" href="{{url}}">See the code online</a><pre class="code">{{code}}</pre><footer class="whowhen">Posted by {{who}} at {{when}}.</footer></article>';
 		
 		codeCount++;
 	
@@ -40,7 +40,7 @@ function generateView(data) {
 	
 	if (data.type == 'generic') {
 		
-		timTemp = '<article class="generalbox row"><h2 class="generaltitle">{{title}}</h2><a class="generallink" href="{{url}}">{{url}}</a><h3><span class="whowhen">Posted by {{who}} at {{when}}.</span><p class="description">{{description}}</p></article>';
+		timTemp = '<article class="generalbox row"><h2 class="generaltitle">{{title}}</h2><a class="generallink" href="{{url}}">{{url}}</a><p class="description">{{description}}</p><footer class="whowhen">Posted by {{who}} at {{when}}.</footer></article>';
 		
 		genericCount++;
 		
@@ -48,7 +48,7 @@ function generateView(data) {
 	
 	if (data.type == 'image') {
 		
-		timTemp = '<article class="imgbox row"><figure><img src="{{url}}" alt="{{who}}\'s Shared Image" /><figcaption><a class="imglink" href="{{url}}">{{url}}</a></figcaption></figure><span class="whowhen">Posted by {{who}} at {{when}}.</span></article>';
+		timTemp = '<article class="imgbox row"><figure><img src="{{url}}" alt="{{who}}\'s Shared Image" /><figcaption><a class="imglink" href="{{url}}">{{url}}</a></figcaption></figure><footer class="whowhen">Posted by {{who}} at {{when}}.</footer></article>';
 		
 		imgCount++;
 		
