@@ -6,11 +6,10 @@ $(document).ready(function() {
 	
 	var socket = io.connect('http://localhost');
 	
-	socket.on('link'), function(data) {
-		
+	socket.on('link'), function (data) {
+		console.log("Got data: ", data);
 		document.getElementById('timwrite').innerHTML = generateView(data);
-		statUpdate();
-		
+		statUpdate();		
 	}
 
 });
