@@ -3,6 +3,7 @@ var app      = require('http').createServer(handler),
     fs       = require('fs'),
     irc      = require('irc'),
     expander = require('./expander'),
+    cache    = [],
     client;
 
 
@@ -20,6 +21,7 @@ client.addListener('message', function (from, to, message) {
 });
 
 
+
 // Find a link function
 
 function extractLink(message){
@@ -32,6 +34,15 @@ function extractLink(message){
 }
 
 
+
+// Add to cache
+
+expander.listen('expansion', function (data) {
+  cache.push(data);
+})
+
+
+
 // Socket connection
 
 io.sockets.on('connection', function (socket) {
@@ -39,6 +50,7 @@ io.sockets.on('connection', function (socket) {
     socket.emit('link', data);
   });
 });
+
 
 
 // HTTP
@@ -49,12 +61,17 @@ function handler (req, res) {
   var path = req.url.replace('public/' + '');
   path = (path === '/') ? 'index.html' : path;
 
-  fs.readFile(__dirname + '/public/' + path, function (err, data) {
-    if (err) {
-      res.writeHead(500);
-      return res.end('Error loading ' + path);
-    }
+  if(path != 'cache'){
+    fs.readFile(__dirname + '/public/' + path, function (err, data) {
+      if (err) {
+        res.writeHead(500);
+        return res.end('Error loading ' + path);
+      }
+      res.writeHead(200);
+      res.end(data);
+    });
+  } else {
     res.writeHead(200);
-    res.end(data);
-  });
+    res.end(JSON.stringify(cache));
+  }
 }
