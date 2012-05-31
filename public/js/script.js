@@ -7,9 +7,20 @@ $(document).ready(function() {
 	var area = document.getElementById('timwrite'),
 			socket = io.connect('http://localhost');
 	
-	socket.on('link', function (data) {
-		console.log("Got data: ", data);
-		area.innerHTML = generateView(data) + area.innerHTML;
+	// Get links collected so far
+
+	$.get('cache').then(function (data) {
+		$.each(JSON.parse(data), function (i, link) {
+			area.innerHTML = generateView(link) + area.innerHTML;
+			statUpdate();
+		})
+	});
+
+	// Listen for new links
+
+	socket.on('link', function (link) {
+		console.log("Got data: ", link);
+		area.innerHTML = generateView(link) + area.innerHTML;
 		statUpdate();		
 	});
 
@@ -83,7 +94,3 @@ function statUpdate() {
 	$('#stats').append(newHead, newItemList);
 		
 }
-
-
-
-
