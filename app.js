@@ -28,7 +28,7 @@ expander.listen('linkExpanded', function (data) {
 
 io.sockets.on('connection', function (socket) {
   clients.add(socket);
-  socket.on('disconnect', function (socket) {
+  socket.on('disconnect', function () {
     clients.remove(socket);
   });
 });
