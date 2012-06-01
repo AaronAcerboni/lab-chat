@@ -2,7 +2,7 @@
   "author": "",
   "name": "lab-chat",
   "description": "Chat for l4rp",
-  "version": "0.0.0",
+  "version": "0.0.0-1",
   "repository": {
     "type": "git",
     "url": "git://github.com/AaronAcerboni/lab-chat.git"
@@ -11,10 +11,14 @@
     "node": "~0.4.12"
   },
   "dependencies": {
-    "jsdom" : "0.2.14",
-    "socket.io" : "0.9.6",
+    "jsdom": "0.2.14",
+    "socket.io": "0.9.6",
     "node-promise": "0.5.2",
     "irc": "0.3.4"
-    },
-  "devDependencies": {}
+  },
+  "devDependencies": {},
+  "subdomain": "l4rp-chatbot",
+  "scripts": {
+    "start": "app.js"
+  }
 }

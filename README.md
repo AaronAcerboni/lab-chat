@@ -15,8 +15,8 @@ The possible hyperlinks are:
 
 # How it works
 
-Links are collected in server memory and a client page requests all of them when
-its script first starts.
+Links are collected in server memory and a client page requests all of them 
+when its script first starts.
 
 Links which are collected are pushed as an 
 [interesting json object](https://github.com/AaronAcerboni/lab-chat/blob/master/link%20type%20schema.md) to a listening client WebSocket. 
@@ -26,16 +26,29 @@ This client then draws them on the page.
 
 ## app.js
 
-Starts the application and the nosey IRC bot.
+Starts the application.
+Handles link caching.
+Handles HTTP fileserving and micro routing.
+
+## chatbot.js
+
+Does the snooping for links.
+
+Event subscription: `foundLink`.
+Passes a link url.
+
+## expander.js
+
+Actually creates the shared link.
+Uses JDOM for scraping out code for `Code` type links.
+
+Event subscription: `expandedLink`.
+Passes an expanded link.
+See [link type schema.md](https://github.com/AaronAcerboni/lab-chat/blob/master/link%20type%20schema.md)
 
 ## discover.js
 
 Figures out what type of link it is.
-
-## expander.js
-
-Actually creates the shared link. Uses JDOM for scraping out code for `Code`
-type links.
 
 # Contributors
 
