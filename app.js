@@ -11,8 +11,8 @@ var app      = require('http').createServer(handler),
 // Expand the link into detailed data structure
 // (See link type schema.md)
 
-chatbot.listen('foundLink', function (from, who) {
-  expander.expand(from, who);
+chatbot.listen('foundLink', function (url, who) {
+  expander.expand(url, who);
 });
 
 // Listen for linkExpanded event from expander
@@ -20,7 +20,7 @@ chatbot.listen('foundLink', function (from, who) {
 
 expander.listen('linkExpanded', function (data) {
   cache.push(data);
-  connections.inform(data);
+  clients.inform(data);
 })
 
 // Listen for new socket connections
