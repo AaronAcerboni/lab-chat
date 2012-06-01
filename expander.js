@@ -106,7 +106,7 @@ expand.generic = function (url, who, content) {
       promise.resolve({
         type: 'generic',
         title: window.jQuery('head title').text() || 'Link',
-        description: window.jQuery('meta').attr('content'),
+        description: 'A generic link...',
         when: new Date(),
         who: who,
         url: validate(url)
