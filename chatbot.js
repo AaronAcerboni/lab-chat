@@ -1,7 +1,6 @@
-var events  = require('events'),
+var irc     = require('irc'),
+    events  = require('events'),
     emitter = new events.EventEmitter(),
-    irc     = require('irc'),
-    clients = [],
     ircClient;
 
 
