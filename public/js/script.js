@@ -1,11 +1,12 @@
 /* jQuery points, Tim writes, socket.io listens */
 
-var codeCount = genericCount = imgCount = 0;
+var codeCount = genericCount = imgCount = 0,
+		BASE_URL = '/';
 
 $(document).ready(function() {
 	
 	var area = document.getElementById('timwrite'),
-			socket = io.connect('http://localhost');
+			socket = io.connect(BASE_URL);
 	
 	// Get links collected so far
 
