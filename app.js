@@ -1,61 +1,46 @@
 var app      = require('http').createServer(handler),
-    io       = require('socket.io').listen(app),
     fs       = require('fs'),
-    irc      = require('irc'),
+    io       = require('socket.io').listen(app),
     expander = require('./expander'),
-    cache    = [],
-    client;
+    chatbot  = require('./chatbot'),
+    clients  = require('./clients'),
+    cache    = [];
 
 
+// Listen for new links from chatbot
+// Expand the link into detailed data structure
+// (See link type schema.md)
 
-// IRC Bot snooping and socket emit
-
-client = new irc.Client('irc.freenode.net', 'Snoopy', {
-  channels: ['#totallyunique'],
+chatbot.listen('foundLink', function (from, who) {
+  expander.expand(from, who);
 });
 
-client.addListener('message', function (from, to, message) {
-  var link = extractLink(message);
-  if (link)
-    expander.expand(link, from);
-});
+// Listen for linkExpanded event from expander
+// Push it to cache and inform connected clients
 
-
-
-// Find a link function
-
-function extractLink(message){
-  var url = /(([a-z]+:\/\/)?(([a-z0-9\-]+\.)+([a-z]{2}|aero|arpa|biz|com|coop|edu|gov|info|int|jobs|mil|museum|name|nato|net|org|pro|travel|local|internal))(:[0-9]{1,5})?(\/[a-z0-9_\-\.~]+)*(\/([a-z0-9_\-\.]*)(\?[a-z0-9+_\-\.%=&amp;]*)?)?(#[a-zA-Z0-9!$&'()*+.=-_~:@/?]*)?)(\s+|$)/gi
-  .exec(message);
-  if(url){
-    return url[0];
-  }
-  return false;
-}
-
-
-
-// Add to cache
-
-expander.listen('expansion', function (data) {
+expander.listen('linkExpanded', function (data) {
   cache.push(data);
+  connections.inform(data);
 })
 
-
-
-// Socket connection
+// Listen for new socket connections
+// Store connected 'clients' in array
 
 io.sockets.on('connection', function (socket) {
-  expander.listen('expansion', function (data) {
-    socket.emit('link', data);
-  });
+  clients.add(socket);
+  socket.on('disconnect', function (socket) {
+    clients.remove(socket);
+  }
 });
 
-
-
-// HTTP
+// Listen on port 8888
 
 app.listen(8888);
+
+
+// Handle HTTP Requests and routing
+// This handler serves files in the public directory.
+// This handler handles a specific 'cache' route which returns all cached links.
 
 function handler (req, res) {
   var path = req.url.replace('public/' + '');
