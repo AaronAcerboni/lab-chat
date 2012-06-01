@@ -30,7 +30,7 @@ io.sockets.on('connection', function (socket) {
   clients.add(socket);
   socket.on('disconnect', function (socket) {
     clients.remove(socket);
-  }
+  });
 });
 
 // Listen on port 8888
