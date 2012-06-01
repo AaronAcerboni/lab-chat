@@ -5,7 +5,7 @@ var connections = {};
 
 exports.inform = function (link) {
   for(var prop in connections){
-    connections[prop].send('link', link);
+    connections[prop].emit('link', link);
   }
 };
 
