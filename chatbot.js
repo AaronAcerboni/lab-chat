@@ -11,7 +11,7 @@ ircClient = new irc.Client('irc.freenode.net', 'Snoopy', function (){
   channels: ['#totallyunique2']
 });
 
-irc.addListener('message', function (from, to, message) {
+ircClient.addListener('message', function (from, to, message) {
   var link = extractLink(message);
   if (link) emitter.emit('foundLink', link, from);
 });
