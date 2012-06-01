@@ -11,15 +11,14 @@ ircClient = new irc.Client('irc.freenode.net', 'Snoopy', {
 });
 
 ircClient.addListener('message', function (from, to, message) {
-  var link = extractLink(message);
-  if (link) emitter.emit('foundLink', link, from);
+  var url = extractUrl(message);
+  if (url) emitter.emit('foundLink', url, from);
 });
 
-console.log('chatbot');
 
-// Returns a found link as String or false
+// Returns a found URL as String or false
 
-function extractLink(message){
+function extractUrl(message){
   var url = /(([a-z]+:\/\/)?(([a-z0-9\-]+\.)+([a-z]{2}|aero|arpa|biz|com|coop|edu|gov|info|int|jobs|mil|museum|name|nato|net|org|pro|travel|local|internal))(:[0-9]{1,5})?(\/[a-z0-9_\-\.~]+)*(\/([a-z0-9_\-\.]*)(\?[a-z0-9+_\-\.%=&amp;]*)?)?(#[a-zA-Z0-9!$&'()*+.=-_~:@/?]*)?)(\s+|$)/gi
   .exec(message);
   if(url){
