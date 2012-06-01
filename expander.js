@@ -16,7 +16,7 @@ var discover = require('./discover'),
 exports.expand = function (url, who) {
   discover.discover(url).then(function (type) {
     expand[type](url, who).then(function (data) {
-      emitter.emit('expansion', data);
+      emitter.emit('linkExpanded', data);
     });
   });
 };
