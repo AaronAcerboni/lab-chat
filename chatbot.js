@@ -6,7 +6,7 @@ var irc     = require('irc'),
 
 // Chat bot
 
-ircClient = new irc.Client('irc.freenode.net', 'Snoopy', function (){
+ircClient = new irc.Client('irc.freenode.net', 'Snoopy', {
   channels: ['#totallyunique2']
 });
 
@@ -15,6 +15,7 @@ ircClient.addListener('message', function (from, to, message) {
   if (link) emitter.emit('foundLink', link, from);
 });
 
+console.log('chatbot');
 
 // Returns a found link as String or false
 
