@@ -1,13 +1,24 @@
-var irc     = require('irc'),
-    events  = require('events'),
-    emitter = new events.EventEmitter(),
+var irc       = require('irc'),
+    events    = require('events'),
+    emitter   = new events.EventEmitter(),
+    network   = 'irc.freenode.net',
+    botname   = 'Snoopy',
+    channels  = [],
     ircClient;
 
 
+// Accept CLI Argument
+
+if(process.argv[2]) {
+  channels.push('#' + process.argv[2]);
+} else {
+  channels.push('#l4rp');
+}
+
 // Chat bot
 
-ircClient = new irc.Client('irc.freenode.net', 'Snoopy', {
-  channels: ['#totallyunique2']
+ircClient = new irc.Client(network, botname, {
+  channels: channels
 });
 
 ircClient.addListener('message', function (from, to, message) {
