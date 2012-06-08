@@ -12,7 +12,7 @@ $(document).ready(function() {
 
 	$.get('cache').then(function (data) {
 		$.each(JSON.parse(data), function (i, link) {
-			area.innerHTML = generateView(link) + area.innerHTML;
+			generateView(link).prependTo(area).fadeIn("slow");
 			statUpdate();
 		})
 	});
@@ -21,7 +21,7 @@ $(document).ready(function() {
 
 	socket.on('link', function (link) {
 		console.log("Got data: ", link);
-		area.innerHTML = generateView(link) + area.innerHTML;
+		generateView(link).prependTo(area).fadeIn("slow");
 		statUpdate();		
 	});
 
@@ -33,7 +33,7 @@ function generateView(data) {
 	
 	if (data.type == 'code') {
 	
-		timTemp = '<article class="codebox row"><h2 class="codetitle">{{title}}</h2><a class="codelink" href="{{url}}">See the code online</a><pre class="code">{{code}}</pre><footer class="whowhen">Posted by {{who}} at {{when}}.</footer></article>';
+		timTemp = '<article class="codebox row"><h2 class="codetitle">{{title}}</h2><a class="codelink" href="{{url}}">See the code online</a><pre class="prettyprint"><code>{{code}}</code></pre><footer class="whowhen">Posted by {{who}} at <time datetime="{{when}}" pubdate>{{when}}</time>.</footer></article>';
 		
 		codeCount++;
 	
@@ -41,7 +41,7 @@ function generateView(data) {
 	
 	if (data.type == 'generic') {
 		
-		timTemp = '<article class="generalbox row"><h2 class="generaltitle">{{title}}</h2><a class="generallink" href="{{url}}">{{url}}</a><p class="description">{{description}}</p><footer class="whowhen">Posted by {{who}} at {{when}}.</footer></article>';
+		timTemp = '<article class="generalbox row"><h2 class="generaltitle">{{title}}</h2><a class="generallink" href="{{url}}">{{url}}</a><p class="description">{{description}}</p><footer class="whowhen">Posted by {{who}} at <time datetime="{{when}}" pubdate>{{when}}</time>.</footer></article>';
 		
 		genericCount++;
 		
@@ -49,13 +49,13 @@ function generateView(data) {
 	
 	if (data.type == 'image') {
 		
-		timTemp = '<article class="imgbox row"><figure><img src="{{url}}" alt="{{who}}\'s Shared Image" /><figcaption><a class="imglink" href="{{url}}">{{url}}</a></figcaption></figure><footer class="whowhen">Posted by {{who}} at {{when}}.</footer></article>';
+		timTemp = '<article class="imgbox row"><figure><img src="{{url}}" alt="{{who}}\'s Shared Image" /><figcaption><a class="imglink" href="{{url}}">{{url}}</a></figcaption></figure><footer class="whowhen">Posted by {{who}} at <time datetime="{{when}}" pubdate>{{when}}</time>.</footer></article>';
 		
 		imgCount++;
 		
 	}
 	
-	return tim(timTemp, data);
+	return $(tim(timTemp, data)).hide();
 	
 }
 

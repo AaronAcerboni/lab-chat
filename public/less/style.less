@@ -51,6 +51,13 @@ section#stats {
   background-color: #E8E8E8;
   padding: @baseline;
 
+  h4 {
+
+    text-align: center;
+    font-size: 1.5em;
+
+  }
+
 }
 
 article {
@@ -77,6 +84,18 @@ article {
   p {
 
     font-size: 1em;
+    margin-bottom: @baseline;
+
+  }
+
+  pre {
+
+    .box-shadow;
+    .border-radius(10px);
+    background-color: rgba(0,0,0,0.7);
+    border: 1px solid darken(#E8E8E8, 20%);
+    padding: @baseline;
+    #font > .monospace;
     margin-bottom: @baseline;
 
   }
@@ -112,6 +131,7 @@ article {
     .border-radius(5px);
     .box-shadow;
     background-color: darken(#E8E8E8, 10%);
+    border: 1px solid darken(#E8E8E8, 20%);
     padding: @baseline / 2;
 
   }
